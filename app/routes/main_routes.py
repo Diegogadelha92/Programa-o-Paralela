@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 from app.services.processamento import processar_imagem
 from flask import current_app as app
+import json
 
 bp = Blueprint('main_routes', __name__, url_prefix="")
 
@@ -27,5 +28,10 @@ def upload_imagem():
 
     if resultados is None:
         return jsonify({'erro': 'Arquivo não é uma imagem válida'}), 400
+    
+    try:
+        json_resultado = json.dumps([tuple(item.tolist() for item in resultado) for resultado in resultados])
+    except Exception as e:
+        return jsonify({'erro': f'Erro ao converter resultado para JSON: {str(e)}'}), 500
 
-    return jsonify({'resultados': resultados})
+    return jsonify({'resultados': json_resultado})
