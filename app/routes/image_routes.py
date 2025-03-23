@@ -18,7 +18,7 @@ def upload_imagem():
         return jsonify({'erro' : 'nome do arquivo invalido.'}), 400
 
     nome_arquivo = secure_filename(arquivo.filename)
-    caminho_arquivo = os.path.join(app.config['PASTA_UPLOAD'], nome_arquivo)
+    caminho_arquivo = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
     arquivo.save(caminho_arquivo)
 
     imagem = cv2.imread(caminho_arquivo)

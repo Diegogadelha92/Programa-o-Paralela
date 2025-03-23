@@ -7,12 +7,23 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Upload de Imagem para Detecção de Placa Veicular</h1>
-    <input type="file" id="imageInput">
-    <button onclick="uploadImage()">Enviar</button>
+    <div class="container">
+        <div class="title">
+            <h1>Detecção de Placa Veicular</h1>
+        </div>
 
-    <h2>Resultado:</h2>
-    <pre id="result"></pre>
+        <div class="section">
+            <h2>1. Upload da Imagem</h2>
+            <input type="file" id="imageInput">
+            <br>
+            <button onclick="uploadImage()">Enviar</button>
+        </div>
+
+        <div class="section">
+            <h2>2. Resultado da Detecção</h2>
+            <pre id="result">Nenhum resultado ainda...</pre>
+        </div>
+    </div>
 
     <script src="/static/script.js"></script>
 </body>
