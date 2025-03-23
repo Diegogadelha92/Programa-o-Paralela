@@ -6,7 +6,11 @@ from werkzeug.utils import secure_filename
 from app.services.processamento import processamento_parte_imagem, dividir_imagem
 from flask import current_app as app
 
-bp = Blueprint('image_routes', __name__)
+bp = Blueprint('main_routes', __name__, url_prefix="")
+
+@bp.route("/", methods=['GET'])
+def homepage():
+    return render_template("homepage.html")
 
 @bp.route('/upload', methods=['POST'])
 def upload_imagem():
