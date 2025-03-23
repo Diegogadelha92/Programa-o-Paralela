@@ -14,11 +14,11 @@ def dividir_imagem(imagem, numero_de_partes):
     partes = []
 
     for i in range(numero_de_partes):
-        inicio_y = i *altura_parte
-        if i == numero_de_partes -1:
+        inicio_y = i * altura_parte
+        if i == numero_de_partes - 1:
             fim_y = altura
         else:
-            fim_y = (i +1) * altura_parte
+            fim_y = (i + 1) * altura_parte
             partes.append(imagem[inicio_y:fim_y, :])
 
             return partes

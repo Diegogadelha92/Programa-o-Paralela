@@ -26,6 +26,11 @@ def upload_imagem():
     arquivo.save(caminho_arquivo)
 
     imagem = cv2.imread(caminho_arquivo)
+
+    if imagem is None:
+        os.remove(caminho_arquivo) 
+        return jsonify({'erro': 'Arquivo não é uma imagem válida'}), 400
+
     num_partes = 3
     partes_imagem = dividir_imagem(imagem, num_partes)
 
