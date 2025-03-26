@@ -1,22 +1,29 @@
 function uploadImage() {
     const input = document.getElementById('imageInput');
-    const file = input.files[0];
+    const formData = new FormData();
 
-    if (!file) {
-        alert("Por favor, selecione uma imagem");
+    if (input.files.length === 0) {
+        alert('Por favor, selecione uma imagem para enviar.');
         return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', input.files[0]);
 
-    fetch('http://127.0.0.1:5000/upload', {
+    fetch('/upload', {
         method: 'POST',
-        body: formData,
-    }).then(reponse => response.json()).then(data => {
-        document.getElemetById('result').textContext = JSON.stringify(data, null, 2);
-    }).catch(error => {
-        alert.error('Eroo ao enviar mensagem', error)
-        document.getElementById('result').textContent = 'Erro ao enviar imagem';
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.erro) {
+            document.getElementById('result').innerText = 'Erro: ' + data.erro;
+        } else {
+            document.getElementById('result').innerText = 
+                'Placa Detectada: \n' + JSON.stringify(data.placa_detectada) + '\n' +
+                'Texto Extraído: \n' + data.texto_extraido;
+        }
+    })
+    .catch(error => {
+        document.getElementById('result').innerText = 'Erro ao enviar a imagem: ' + error;
     });
 }
