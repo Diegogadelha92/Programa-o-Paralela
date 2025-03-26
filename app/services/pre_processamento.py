@@ -1,14 +1,6 @@
-import os
 import cv2
 import threading
 import numpy as np
-
-def carregar_e_validar_imagem(caminho_arquivo):
-    imagem = cv2.imread(caminho_arquivo)
-    if imagem is None:
-        os.remove(caminho_arquivo)
-        return None
-    return imagem
 
 def dividir_imagem(imagem, numero_de_partes):
     altura, largura, _ = imagem.shape
@@ -31,16 +23,15 @@ def processamento_parte_imagem(parte_imagem, resultados, indice):
         kernel = np.ones((3,3), np.uint8)
         imagem_dilatada = cv2.dilate(imagem_limiarizada, kernel, iterations=1)
 
-        resultados[indice] = (parte_imagem, escala_cinza, imagem_limiarizada, imagem_dilatada)
-    except Exception as e:
+        resultados[indice] = imagem_dilatada
+    except Exception:
         resultados[indice] = None
 
-def processar_imagem(caminho_arquivo, num_partes=3):
-    imagem = carregar_e_validar_imagem(caminho_arquivo)
-    if imagem is None:
+def processar_imagem(imagem_placa, num_partes=3):
+    if imagem_placa is None:
         return None
 
-    partes_imagem = dividir_imagem(imagem, num_partes)
+    partes_imagem = dividir_imagem(imagem_placa, num_partes)
     threads = []
     resultados = [None] * num_partes
 
@@ -55,4 +46,5 @@ def processar_imagem(caminho_arquivo, num_partes=3):
     if any(r is None for r in resultados):
         return None
 
-    return resultados
+    imagem_final = np.vstack(resultados)
+    return imagem_final
