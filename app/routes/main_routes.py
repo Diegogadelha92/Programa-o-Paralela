@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from flask import current_app as app
 from app.services.pre_processamento import processar_imagem
 from app.services.identificacao_placas import reconhecer_placa
+from app.services.reconhecimento_ocr import reconhecer_texto
 import json
 import numpy as np
 
@@ -40,9 +41,14 @@ def upload_imagem():
     if processamento_placa is None:
         return jsonify({'erro': 'Arquivo não é uma imagem válida'}), 400
 
+    texto_extraido = reconhecer_texto(processamento_placa)
+
     try:
-        json_resultado = json.dumps([tuple(item.tolist() for item in resultado) for resultado in processamento_placa])
+        json_resultado = json.dumps([tuple(item.tolist() for item in resultado) for resultado in placa_detectada])
     except Exception as e:
         return jsonify({'erro': f'Erro ao converter resultado para JSON: {str(e)}'}), 500
 
-    return jsonify({'resultados': json_resultado, 'placas': [placa.tolist() for placa in placa_detectada]})
+    return jsonify({
+        'placa_detectada': json_resultado,
+        'texto_extraido': texto_extraido
+    }), 200
