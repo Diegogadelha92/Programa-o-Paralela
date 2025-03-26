@@ -1,5 +1,4 @@
 import os
-
 from flask import Blueprint, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 from flask import current_app as app
@@ -49,6 +48,6 @@ def upload_imagem():
         return jsonify({'erro': f'Erro ao converter resultado para JSON: {str(e)}'}), 500
 
     return jsonify({
-        'placa_detectada': json_resultado,
+        # 'placa_detectada': json_resultado,
         'texto_extraido': texto_extraido
     }), 200

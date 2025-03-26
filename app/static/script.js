@@ -19,7 +19,7 @@ function uploadImage() {
             document.getElementById('result').innerText = 'Erro: ' + data.erro;
         } else {
             document.getElementById('result').innerText = 
-                'Placa Detectada: \n' + JSON.stringify(data.placa_detectada) + '\n' +
+              //  'Placa Detectada: \n' + JSON.stringify(data.placa_detectada) + '\n' +
                 'Texto Extraído: \n' + data.texto_extraido;
         }
     })
